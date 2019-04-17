@@ -1,0 +1,24 @@
+#kdiff3 ignore
+*.orig
+
+#idea
+.idea/
+/idea/
+*.ipr
+*.iml
+*.iws
+
+#temp file
+*.log
+*.cache
+*.diff
+*.patch
+*.tmp
+
+# large file
+*.pkl
+*.conv
+
+#system ignore
+.DS_Store
+*.pyc
