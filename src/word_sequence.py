@@ -7,7 +7,7 @@ import numpy as np
 
 
 class WordSequence(object):
-    PAD_TAG = '<pad>'  # 填充
+    PAD_TAG = '<pad>'  # 补位
     UNK_TAG = '<unk>'  # 未知
     START_TAG = '<s>'  # 开始
     END_TAG = '</s>'  # 结束
@@ -35,7 +35,7 @@ class WordSequence(object):
             return self.dict[word]
         return WordSequence.UNK
 
-    # word to index
+    # index to word
     def to_word(self, index):
         assert self.fited, "WordSequence 尚未进行 fit 操作"
         for k, v in self.dict.items():
@@ -45,7 +45,7 @@ class WordSequence(object):
 
     def size(self):
         assert self.fited, "WordSequence 尚未进行 fit 操作"
-        return len(self.dict) + 1
+        return len(self.dict) + 1  # 补位+1
 
     def __len__(self):
         return self.size()

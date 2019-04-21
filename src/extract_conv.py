@@ -8,7 +8,7 @@ import pickle
 from tqdm import tqdm
 
 
-# 句子切分
+# 去掉非法字符
 def make_split(line):
     if re.match(r'.*([，…?!\.,!？])$', ''.join(line)):
         return []
@@ -37,15 +37,21 @@ def regular(sen):
 def main(limit=20, x_limit=3, y_limit=6):
     from src.word_sequence import WordSequence
 
+    # 解压文件
     print('extract lines')
     fp = open("dgk_shooter_min.conv", 'r', errors='ignore', encoding='utf-8')
+    # 保存全部句子列表
     groups = []
+    # 保存一行
     group = []
 
+    # 进度条显示
     for line in tqdm(fp):
+        # 句子处理M开头
         if line.startswith('M '):
+            # 去掉回撤
             line = line.replace('\n', '')
-
+            # 去掉 '/'
             if '/' in line:
                 line = line[2:].split('/')
             else:
@@ -53,6 +59,7 @@ def main(limit=20, x_limit=3, y_limit=6):
             line = line[:-1]
 
             group.append(list(regular(''.join(line))))
+        # E开头句子
         else:
             if group:
                 groups.append(group)
@@ -62,12 +69,16 @@ def main(limit=20, x_limit=3, y_limit=6):
         group = []
     print('extract group')
 
+    # 定义问答对
     x_data = []
     y_data = []
 
+    # 进度条显示
     for group in tqdm(groups):
+        # i:行号 , line:内容
         for i, line in enumerate(group):
             last_line = None
+            # 至少两行
             if i > 0:
                 last_line = group[i - 1]
                 if not good_line(last_line):
@@ -93,14 +104,18 @@ def main(limit=20, x_limit=3, y_limit=6):
                 x_data.append(line)
                 y_data.append(next_line + make_split(next_line) + next_next_line)
 
+    # 问答对数据量
     print(len(x_data), len(y_data))
 
+    # 将问答对放入zip object(至多20字符)
     for ask, answer in zip(x_data[:20], y_data[:20]):
         print(''.join(ask))
         print(''.join(answer))
         print('-' * 20)
 
     data = list(zip(x_data, y_data))
+
+    # 组装规则: 3<x<20 and 6<y<20
     data = [
         (x, y)
         for x, y in data
@@ -111,13 +126,13 @@ def main(limit=20, x_limit=3, y_limit=6):
     ]
     x_data, y_data = zip(*data)
 
+    # word_sequence模型训练
     print('fit word_sequence')
-
     ws_input = WordSequence()
     ws_input.fit(x_data + y_data)
 
+    # 保存 (bit形式)
     print('dump')
-
     pickle.dump(
         (x_data, y_data),
         open('chatbot.pkl', 'wb')
