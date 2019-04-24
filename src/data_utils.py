@@ -101,11 +101,10 @@ def batch_flow(data, ws, batch_size, raw=False, add_end=True):
                 else:
                     w = ws
 
-                # 添加结尾
+                # 添加结束标记（结尾）
                 line = d[j]
                 if add_end[j] and isinstance(line, (tuple, list)):
                     line = list(line) + [WordSequence.END_TAG]
-
                 if w is not None:
                     x, xl = transform_sentence(line, w, max_lens[j], add_end[j])
                     batches[j * mul].append(x)
@@ -116,24 +115,7 @@ def batch_flow(data, ws, batch_size, raw=False, add_end=True):
                 if raw:
                     batches[j * mul + 2].append(line)
         batches = [np.asarray(x) for x in batches]
-
         yield batches
-
-    # def test_batch_flow():
-    #     from fake_data import generate
-    #     x_data, y_data, ws_input, ws_target = generate(size=10000)
-    #     flow = batch_flow([x_data, y_data], [ws_input, ws_target], 4)
-    #     x, xl, y, yl = next(flow)
-    #     print(x.shape, y.shape, xl.shape, yl.shape)
-    #
-    # def test_batch_flow_bucket():
-    #     from fake_data import generate
-    #     x_data, y_data, ws_input, ws_target = generate(size=10000)
-    #     flow = batch_flow_bucket([x_data, y_data], [ws_input, ws_target], 4, debug=True)
-    #     for _ in range(10):
-    #         x, xl, y, yl = next(flow)
-    #         print(x.shape, y.shape, xl.shape, yl.shape)
-
 
 if __name__ == '__main__':
     print(_get_available_gpus())
