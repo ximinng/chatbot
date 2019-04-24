@@ -215,5 +215,28 @@ def batch_flow_bucket(data, ws, batch_size, raw=False, add_end=True, n_bucket=5,
         yield batches
 
 
+def test_batch_flow():
+    from src.fake_data import generate
+    x_data, y_data, ws_input, ws_target = generate(size=10000)
+    flow = batch_flow([x_data, y_data], [ws_input, ws_target], 4)
+    x, xl, y, yl = next(flow)
+    print(x.shape, y.shape, xl.shape, yl.shape)
+
+
+def test_batch_flow_bucket():
+    from src.fake_data import generate
+    x_data, y_data, ws_input, ws_target = generate(size=10000)
+    flow = batch_flow_bucket([x_data, y_data], [ws_input, ws_target], batch_size=4, debug=True)
+    for _ in range(10):
+        x, xl, y, yl = next(flow)
+        print(x.shape, y.shape, xl.shape, yl.shape)
+
+
 if __name__ == '__main__':
-    print(_get_available_gpus())
+    # print(_get_available_gpus())
+
+    # size = 300000
+    # print(_get_embed_device(size))
+
+    test_batch_flow()
+    test_batch_flow_bucket()
