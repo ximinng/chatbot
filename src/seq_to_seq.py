@@ -186,11 +186,11 @@ class SequenceToSequence(object):
 
     def build_model(self):
         """
-        构建整个模型
-            分别构建
-            编码器（encoder）
-            解码器（decoder）
-            优化器（只在训练时构建，optimizer）
+        1. 初始化训练所需变量
+        2. 构建编码器（encoder）
+        3. 构建解码器（decoder）
+        4. 构建优化器（只在训练时构建，optimizer）
+        5. 保存
         """
         self.init_placeholders()
         encoder_outputs, encoder_state = self.build_encoder()
@@ -477,10 +477,11 @@ class SequenceToSequence(object):
             attention_layer_size=self.hidden_units,
             alignment_history=alignment_history,
             cell_input_fn=cell_input_fn,
-            name='Attention_Wrapper')
+            name='Attention_Wrapper'
+        )
 
         # 初始化decode
-        decoder_initial_state = cell.zero_state(batch_size, tf.float32)
+        decoder_initial_state = cell.zero_state(batch_size, dtype=tf.float32)
 
         # 传递encoder状态
         decoder_initial_state = decoder_initial_state.clone(cell_state=encoder_state)
@@ -491,17 +492,18 @@ class SequenceToSequence(object):
         """构建解码器"""
 
         with tf.variable_scope('decoder') as decoder_scope:
-            (self.decoder_cell, self.decoder_initial_state) = self.build_decoder_cell(encoder_outputs, encoder_state)
+            (self.decoder_cell,
+             self.decoder_initial_state) = self.build_decoder_cell(encoder_outputs, encoder_state)
 
             # 解码器embedding:
             # 判断发生在GPU/CPU上
             with tf.device(_get_embed_device(self.target_vocab_size)):
 
-                # decoder与encoder共享embedding
+                # decoder与encoder是否共享embedding
                 if self.share_embedding:
                     self.decoder_embeddings = self.encoder_embeddings
 
-                # 不共享
+                # decoder与encoder不共享但预训练过
                 elif self.pretrained_embedding:
                     self.decoder_embeddings = tf.Variable(
                         tf.constant(0.0, shape=(self.target_vocab_size, self.embedding_size)),
@@ -514,7 +516,7 @@ class SequenceToSequence(object):
                     )
                     self.decoder_embeddings_init = self.decoder_embeddings.assign(self.decoder_embeddings_placeholder)
 
-                # 不共享
+                # decoder与encoder不共享并且未预训练
                 else:
                     self.decoder_embeddings = tf.get_variable(
                         name='embeddings',
@@ -531,6 +533,7 @@ class SequenceToSequence(object):
                 name='decoder_output_projection'
             )
 
+            # 训练模式
             if self.mode == 'train':
                 self.decoder_inputs_embedded = tf.nn.embedding_lookup(
                     params=self.decoder_embeddings,
@@ -548,8 +551,6 @@ class SequenceToSequence(object):
                     name='training_helper'
                 )
 
-                # 训练的时候不在这里应用 output_layer
-                # 因为这里会每个 time_step 的进行 output_layer 的投影计算，比较慢
                 # 注意这个trick要成功必须设置 dynamic_decode 的 scope 参数
                 training_decoder = seq2seq.BasicDecoder(
                     cell=self.decoder_cell,
@@ -562,11 +563,10 @@ class SequenceToSequence(object):
                     self.decoder_inputs_length
                 )
 
-                (
-                    outputs,
-                    self.final_state,  # contain attention
-                    _  # self.final_sequence_lengths
-                ) = seq2seq.dynamic_decode(
+                (outputs,
+                 self.final_state,  # contain attention
+                 _  # self.final_sequence_lengths
+                 ) = seq2seq.dynamic_decode(
                     decoder=training_decoder,
                     output_time_major=self.time_major,
                     impute_finished=True,
@@ -590,20 +590,21 @@ class SequenceToSequence(object):
 
                 decoder_logits_train = self.decoder_logits_train
                 if self.time_major:
-                    decoder_logits_train = tf.transpose(decoder_logits_train,
-                                                        (1, 0, 2))
+                    decoder_logits_train = tf.transpose(decoder_logits_train, (1, 0, 2))
 
                 self.decoder_pred_train = tf.argmax(
-                    decoder_logits_train, axis=-1,
-                    name='decoder_pred_train')
+                    decoder_logits_train,
+                    axis=-1,
+                    name='decoder_pred_train'
+                )
 
                 # 下面的一些变量用于特殊的学习训练
-                # 自定义rewards，其实我这里是修改了masks
+                # 自定义rewards
                 # train_entropy = cross entropy
-                self.train_entropy = \
-                    tf.nn.sparse_softmax_cross_entropy_with_logits(
-                        labels=self.decoder_inputs,
-                        logits=decoder_logits_train)
+                self.train_entropy = tf.nn.sparse_softmax_cross_entropy_with_logits(
+                    labels=self.decoder_inputs,
+                    logits=decoder_logits_train
+                )
 
                 self.masks_rewards = self.masks * self.rewards
 
@@ -625,8 +626,8 @@ class SequenceToSequence(object):
 
                 self.loss_add = self.loss + self.add_loss
 
+            # 预测模式，非训练
             elif self.mode == 'decode':
-                # 预测模式，非训练
 
                 start_tokens = tf.tile(
                     [WordSequence.START],
@@ -660,7 +661,6 @@ class SequenceToSequence(object):
                 else:
                     # Beamsearch is used to approximately
                     # find the most likely translation
-                    # print("building beamsearch decoder..")
                     inference_decoder = BeamSearchDecoder(
                         cell=self.decoder_cell,
                         embedding=embed_and_input_proj,
@@ -677,11 +677,10 @@ class SequenceToSequence(object):
                     # 默认 4 倍输入长度的输出解码
                     max_decode_step = tf.round(tf.reduce_max(self.encoder_inputs_length) * 4)
 
-                (
-                    self.decoder_outputs_decode,
-                    self.final_state,
-                    _  # self.decoder_outputs_length_decode
-                ) = (seq2seq.dynamic_decode(
+                (self.decoder_outputs_decode,
+                 self.final_state,
+                 _  # self.decoder_outputs_length_decode
+                 ) = seq2seq.dynamic_decode(
                     decoder=inference_decoder,
                     output_time_major=self.time_major,
                     # impute_finished=True,	# error occurs
@@ -689,28 +688,25 @@ class SequenceToSequence(object):
                     parallel_iterations=self.parallel_iterations,
                     swap_memory=True,
                     scope=decoder_scope
-                ))
+                )
 
                 if not self.use_beamsearch_decode:
-
                     dod = self.decoder_outputs_decode
                     self.decoder_pred_decode = dod.sample_id
 
                     if self.time_major:
-                        self.decoder_pred_decode = tf.transpose(
-                            self.decoder_pred_decode, (1, 0))
+                        self.decoder_pred_decode = tf.transpose(self.decoder_pred_decode, (1, 0))
 
                 else:
-                    self.decoder_pred_decode = \
-                        self.decoder_outputs_decode.predicted_ids
+                    self.decoder_pred_decode = self.decoder_outputs_decode.predicted_ids
 
                     if self.time_major:
-                        self.decoder_pred_decode = tf.transpose(
-                            self.decoder_pred_decode, (1, 0, 2))
+                        self.decoder_pred_decode = tf.transpose(self.decoder_pred_decode, (1, 0, 2))
 
                     self.decoder_pred_decode = tf.transpose(
                         self.decoder_pred_decode,
-                        perm=[0, 2, 1])
+                        perm=[0, 2, 1]
+                    )
                     dod = self.decoder_outputs_decode
                     self.beam_prob = dod.beam_search_decoder_output.scores
 
@@ -743,46 +739,50 @@ class SequenceToSequence(object):
         # 'adadelta', 'adam', 'rmsprop', 'momentum', 'sgd'
         trainable_params = tf.trainable_variables()
         if self.optimizer.lower() == 'adadelta':
-            self.opt = tf.train.AdadeltaOptimizer(
-                learning_rate=learning_rate)
+            self.opt = tf.train.AdadeltaOptimizer(learning_rate=learning_rate)
         elif self.optimizer.lower() == 'adam':
-            self.opt = tf.train.AdamOptimizer(
-                learning_rate=learning_rate)
+            self.opt = tf.train.AdamOptimizer(learning_rate=learning_rate)
         elif self.optimizer.lower() == 'rmsprop':
-            self.opt = tf.train.RMSPropOptimizer(
-                learning_rate=learning_rate)
+            self.opt = tf.train.RMSPropOptimizer(learning_rate=learning_rate)
         elif self.optimizer.lower() == 'momentum':
-            self.opt = tf.train.MomentumOptimizer(
-                learning_rate=learning_rate, momentum=0.9)
+            self.opt = tf.train.MomentumOptimizer(learning_rate=learning_rate, momentum=0.9)
         elif self.optimizer.lower() == 'sgd':
-            self.opt = tf.train.GradientDescentOptimizer(
-                learning_rate=learning_rate)
+            self.opt = tf.train.GradientDescentOptimizer(learning_rate=learning_rate)
 
+        # 梯度下降
         gradients = tf.gradients(self.loss, trainable_params)
-        # Clip gradients by a given maximum_gradient_norm
+
+        # 梯度裁剪
         clip_gradients, _ = tf.clip_by_global_norm(
-            gradients, self.max_gradient_norm)
-        # Update the model
+            gradients,
+            self.max_gradient_norm
+        )
+
+        # 更新模型
         self.updates = self.opt.apply_gradients(
             zip(clip_gradients, trainable_params),
-            global_step=self.global_step)
+            global_step=self.global_step
+        )
 
         # 使用包括rewards的loss进行更新
-        # 是特殊学习的一部分
         gradients = tf.gradients(self.loss_rewards, trainable_params)
         clip_gradients, _ = tf.clip_by_global_norm(
-            gradients, self.max_gradient_norm)
+            gradients, self.max_gradient_norm
+        )
         self.updates_rewards = self.opt.apply_gradients(
             zip(clip_gradients, trainable_params),
-            global_step=self.global_step)
+            global_step=self.global_step
+        )
 
-        # 添加 self.loss_add 的 update
+        # 添加 self.loss_add 的更新
         gradients = tf.gradients(self.loss_add, trainable_params)
         clip_gradients, _ = tf.clip_by_global_norm(
-            gradients, self.max_gradient_norm)
+            gradients, self.max_gradient_norm
+        )
         self.updates_add = self.opt.apply_gradients(
             zip(clip_gradients, trainable_params),
-            global_step=self.global_step)
+            global_step=self.global_step
+        )
 
     def check_feeds(self, encoder_inputs, encoder_inputs_length,
                     decoder_inputs, decoder_inputs_length, decode):
@@ -829,21 +829,18 @@ class SequenceToSequence(object):
         if input_batch_size != encoder_inputs_length.shape[0]:
             raise ValueError(
                 "encoder_inputs和encoder_inputs_length的第一维度必须一致 "
-                "这一维度是batch_size, %d != %d" % (
-                    input_batch_size, encoder_inputs_length.shape[0]))
+                "这一维度是batch_size, %d != %d" % (input_batch_size, encoder_inputs_length.shape[0]))
 
         if not decode:
             target_batch_size = decoder_inputs.shape[0]
             if target_batch_size != input_batch_size:
                 raise ValueError(
                     "encoder_inputs和decoder_inputs的第一维度必须一致 "
-                    "这一维度是batch_size, %d != %d" % (
-                        input_batch_size, target_batch_size))
+                    "这一维度是batch_size, %d != %d" % (input_batch_size, target_batch_size))
             if target_batch_size != decoder_inputs_length.shape[0]:
                 raise ValueError(
                     "edeoder_inputs和decoder_inputs_length的第一维度必须一致 "
-                    "这一维度是batch_size, %d != %d" % (
-                        target_batch_size, decoder_inputs_length.shape[0]))
+                    "这一维度是batch_size, %d != %d" % (target_batch_size, decoder_inputs_length.shape[0]))
 
         input_feed = {}
 
@@ -856,10 +853,13 @@ class SequenceToSequence(object):
 
         return input_feed
 
-    def train(self, sess, encoder_inputs, encoder_inputs_length,
+    def train(self, sess,
+              encoder_inputs, encoder_inputs_length,
               decoder_inputs, decoder_inputs_length,
-              rewards=None, return_lr=False,
-              loss_only=False, add_loss=None):
+              rewards=None,
+              return_lr=False,  # 学习率
+              loss_only=False,
+              add_loss=None):
         """训练模型"""
 
         # 输入
@@ -879,7 +879,8 @@ class SequenceToSequence(object):
         if add_loss is not None:
             input_feed[self.add_loss.name] = add_loss
             output_feed = [
-                self.updates_add, self.loss_add,
+                self.updates_add,
+                self.loss_add,
                 self.current_learning_rate]
             _, cost, lr = sess.run(output_feed, input_feed)
 
@@ -891,16 +892,19 @@ class SequenceToSequence(object):
         if rewards is not None:
             input_feed[self.rewards.name] = rewards
             output_feed = [
-                self.updates_rewards, self.loss_rewards,
+                self.updates_rewards,
+                self.loss_rewards,
                 self.current_learning_rate]
             _, cost, lr = sess.run(output_feed, input_feed)
 
             if return_lr:
                 return cost, lr
+
             return cost
 
         output_feed = [
-            self.updates, self.loss,
+            self.updates,
+            self.loss,
             self.current_learning_rate]
         _, cost, lr = sess.run(output_feed, input_feed)
 
@@ -918,7 +922,8 @@ class SequenceToSequence(object):
         emb = sess.run(self.encoder_inputs_embedded, input_feed)
         return emb
 
-    def entropy(self, sess, encoder_inputs, encoder_inputs_length,
+    def entropy(self, sess,
+                encoder_inputs, encoder_inputs_length,
                 decoder_inputs, decoder_inputs_length):
         """
         获取针对一组输入输出的entropy
@@ -942,7 +947,10 @@ class SequenceToSequence(object):
 
         # 输入
         input_feed = self.check_feeds(encoder_inputs,
-                                      encoder_inputs_length, None, None, True)
+                                      encoder_inputs_length,
+                                      decoder_inputs=None,
+                                      decoder_inputs_length=None,
+                                      decode=True)
 
         input_feed[self.keep_prob_placeholder.name] = 1.0
 
@@ -950,26 +958,25 @@ class SequenceToSequence(object):
         if attention:
             assert not self.use_beamsearch_decode, 'Attention 模式不能打开 BeamSearch'
 
-            pred, atten = sess.run([
-                self.decoder_pred_decode,
-                self.final_state.alignment_history.stack()
-            ], input_feed)
+            pred, atten = sess.run(
+                [self.decoder_pred_decode, self.final_state.alignment_history.stack()],
+                input_feed
+            )
 
             return pred, atten
 
         # BeamSearch 模式输出
         if self.use_beamsearch_decode:
-            pred, beam_prob = sess.run([
-                self.decoder_pred_decode, self.beam_prob
-            ], input_feed)
+            pred, beam_prob = sess.run(
+                [self.decoder_pred_decode, self.beam_prob],
+                input_feed
+            )
             beam_prob = np.mean(beam_prob, axis=1)
 
             pred = pred[0]
             return pred
 
         # 普通（Greedy）模式输出
-        pred, = sess.run([
-            self.decoder_pred_decode
-        ], input_feed)
+        pred, = sess.run([self.decoder_pred_decode], input_feed)
 
         return pred
