@@ -10,9 +10,7 @@ import numpy as np
 import tensorflow as tf
 
 
-# from flask import Flask,request
-
-def test(params, infos):
+def test(params):
     from src.seq_to_seq import SequenceToSequence
     from src.data_utils import batch_flow
 
@@ -31,7 +29,8 @@ def test(params, infos):
     )
 
     # 读取模型路径
-    save_path = './model/s2ss_chatbot_anti.ckpt'
+    # save_path = './model/s2ss_chatbot_anti.ckpt'
+    save_path = './model/s2ss_chatbot.ckpt'
 
     tf.reset_default_graph()
     model_pred = SequenceToSequence(
@@ -52,8 +51,8 @@ def test(params, infos):
             user_text = input('请输入您的句子:')
             if user_text in ('exit', 'quit'):
                 exit(0)
-            x_test = [list(infos.lower())]
-            bar = batch_flow([x_test], ws, 1)
+            x_test = [list(user_text.lower())]
+            bar = batch_flow(data=[x_test], ws=ws, batch_size=1)
             x, xl = next(bar)
             x = np.flip(x, axis=1)
 
@@ -61,8 +60,8 @@ def test(params, infos):
 
             pred = model_pred.predict(
                 sess,
-                np.array(x),
-                np.array(xl)
+                encoder_inputs=np.array(x),
+                encoder_inputs_length=np.array(xl)
             )
             print(pred)
 
@@ -73,18 +72,11 @@ def test(params, infos):
                 print(ans)
                 return ans
 
-# app = Flask(__name__)
+
+def main():
+    import json
+    test(json.load(open('params.json')))
 
 
-# @app.route('/api/chatbot', methods=['get'])
-# def chatbot():
-#     infos = request.args['infos']
-#
-#     import json
-#     text = test(json.load(open('params.json')), infos)
-#     # return text
-#     return "".join(text)
-
-# if __name__ == '__main__':
-# app.debug = True
-# app.run(host='0.0.0.0', port=8000)
+if __name__ == '__main__':
+    main()
