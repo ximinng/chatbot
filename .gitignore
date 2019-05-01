@@ -100,3 +100,6 @@ ENV/
 # large file
 *.pkl
 *.conv
+
+# trained model
+model/

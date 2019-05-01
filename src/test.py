@@ -30,6 +30,7 @@ def test(params, infos):
         log_device_placement=False
     )
 
+    # 读取模型路径
     save_path = './model/s2ss_chatbot_anti.ckpt'
 
     tf.reset_default_graph()
@@ -72,7 +73,6 @@ def test(params, infos):
                 print(ans)
                 return ans
 
-
 # app = Flask(__name__)
 
 
@@ -85,6 +85,6 @@ def test(params, infos):
 #     # return text
 #     return "".join(text)
 
-if __name__ == '__main__':
+# if __name__ == '__main__':
 # app.debug = True
 # app.run(host='0.0.0.0', port=8000)
