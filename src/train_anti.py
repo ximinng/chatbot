@@ -32,7 +32,7 @@ def test(params):
     # 模型保存路径
     save_path = './model/s2ss_chatbot_anti.ckpt'
 
-    # 训练
+    # 训练1
     tf.reset_default_graph()
     with tf.Graph().as_default():
         random.seed(0)
@@ -61,6 +61,7 @@ def test(params):
 
             for epoch in range(1, n_epoch + 1):
                 costs = []
+                # 进度条
                 bar = tqdm(range(steps),
                            total=steps,
                            desc='epoch {}, loss=0.000000'.format(epoch))
@@ -71,7 +72,8 @@ def test(params):
                     add_loss = model.train(sess,
                                            dummy_encoder_inputs,
                                            dummy_encoder_inputs_length,
-                                           y, yl, loss_only=True)
+                                           y, yl,
+                                           loss_only=True)
                     add_loss *= -0.5
 
                     cost, lr = model.train(sess,
@@ -87,7 +89,7 @@ def test(params):
                 model.save(sess, save_path)
             flow.close()
 
-    # 预测
+    # 训练2
     tf.reset_default_graph()
     model_pred = SequenceToSequence(
         input_vocab_size=len(ws),
