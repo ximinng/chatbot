@@ -20,7 +20,7 @@ def test(params):
     x_data, y_data = pickle.load(open('chatbot.pkl', 'rb'))
     ws = pickle.load(open('ws.pkl', 'rb'))
 
-    n_epoch = 2  # 训练轮次
+    n_epoch = 40  # 训练轮次
     batch_size = 128
     steps = int(len(x_data) / batch_size) + 1
 

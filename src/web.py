@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-   Description :   train_anti 测试
+   Description :   web interface
    Author :        xxm
 """
 import sys
@@ -17,9 +17,6 @@ def test(params, infos):
 
     x_data, _ = pickle.load(open('chatbot.pkl', 'rb'))
     ws = pickle.load(open('ws.pkl', 'rb'))
-
-    for x in x_data[:5]:
-        print(' '.join(x))
 
     config = tf.ConfigProto(
         device_count={'CPU': 1, 'GPU': 0},
@@ -50,16 +47,12 @@ def test(params, infos):
             x, xl = next(bar)
             x = np.flip(x, axis=1)
 
-            print(x, xl)
-
             pred = model_pred.predict(
                 sess,
                 np.array(x),
                 np.array(xl)
             )
             print(pred)
-
-            print(ws.inverse_transform(x[0]))
 
             for p in pred:
                 ans = ws.inverse_transform(p)

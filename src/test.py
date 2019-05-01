@@ -29,8 +29,8 @@ def test(params):
     )
 
     # 读取模型路径
-    # save_path = './model/s2ss_chatbot_anti.ckpt'
-    save_path = './model/s2ss_chatbot.ckpt'
+    save_path = './model/s2ss_chatbot_anti.ckpt'
+    # save_path = './model/s2ss_chatbot.ckpt'
 
     tf.reset_default_graph()
     model_pred = SequenceToSequence(
