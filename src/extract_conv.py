@@ -39,60 +39,58 @@ def main(limit=20,  # 句子长度
          y_limit=6):
     from word_sequence import WordSequence
 
-    # 解压文件
     print('extract lines')
     fp = open("raw_data/dgk_shooter_min.conv", 'r', errors='ignore', encoding='utf-8')
+
     # 保存全部句子列表
     groups = []
     # 保存一行
     group = []
 
-    # 进度条显示
-    for line in tqdm(fp):
-        # 句子处理M开头
-        if line.startswith('M '):
-            # 去掉回撤
-            line = line.replace('\n', '')
-            # 去掉 '/'
+    for line in tqdm(fp):  # 显示进度条
+
+        if line.startswith('M '):  # 句子处理M开头
+            line = line.replace('\n', '')  # 去掉回撤
+
             if '/' in line:
-                line = line[2:].split('/')
+                line = line[2:].split('/')  # 斜杠切分
             else:
                 line = list(line[2:])
             line = line[:-1]
 
             group.append(list(regular(''.join(line))))
-        # E开头句子---line.startswith('E ')
-        else:
+
+        else:  # E开头句子---line.startswith('E ')
             if group:
                 groups.append(group)
                 group = []
+
     if group:
         groups.append(group)
         group = []
     print('\nextract group')
 
-    # 定义问答对
+    """定义问答对"""
     x_data = []
     y_data = []
 
     # 进度条显示
     for group in tqdm(groups):
-        # i:行号 , line:内容
-        for i, line in enumerate(group):
+        for index, line in enumerate(group):
             last_line = None
-            # 至少两行
-            if i > 0:
-                last_line = group[i - 1]
+            if index > 0:
+                last_line = group[index - 1]
+                # 去掉无用句子
                 if not good_line(last_line):
                     last_line = None
             next_line = None
-            if i < len(group) - 1:
-                next_line = group[i + 1]
+            if index < len(group) - 1:
+                next_line = group[index + 1]
                 if not good_line(next_line):
                     next_line = None
             next_next_line = None
-            if i < len(group) - 2:
-                next_next_line = group[i + 2]
+            if index < len(group) - 2:
+                next_next_line = group[index + 2]
                 if not good_line(next_next_line):
                     next_next_line = None
 
@@ -115,16 +113,13 @@ def main(limit=20,  # 句子长度
         print(''.join(answer))
         print('-' * 20)
 
+    """组装数据"""
     data = list(zip(x_data, y_data))
 
-    # 组装规则: 3<x<20 and 6<y<20
+    # 组装规则: 3<问句长度<20 and 6<回答长度<20
     data = [
-        (x, y)
-        for x, y in data
-        if len(x) < limit \
-           and len(y) < limit \
-           and len(y) >= y_limit \
-           and len(x) >= x_limit
+        (x, y) for x, y in data
+        if len(x) < limit and len(y) < limit and len(y) >= y_limit and len(x) >= x_limit
     ]
     x_data, y_data = zip(*data)
 
@@ -133,7 +128,7 @@ def main(limit=20,  # 句子长度
     ws_input = WordSequence()
     ws_input.fit(x_data + y_data)
 
-    # 保存 (bit形式)
+    # 保存 (pickle格式)
     print('dump')
     pickle.dump(
         (x_data, y_data),
