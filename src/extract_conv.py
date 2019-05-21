@@ -34,7 +34,9 @@ def regular(sen):
     return sen
 
 
-def main(limit=20, x_limit=3, y_limit=6):
+def main(limit=20,  # 句子长度
+         x_limit=3,
+         y_limit=6):
     from word_sequence import WordSequence
 
     # 解压文件
