@@ -5,7 +5,7 @@
 """
 import random
 import numpy as np
-from src.word_sequence import WordSequence
+from word_sequence import WordSequence
 
 
 def generate(max_len=10, size=1000, same_len=False, seed=0):

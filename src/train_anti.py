@@ -10,11 +10,11 @@ import tensorflow as tf
 from tqdm import tqdm
 
 
-def test(params):
-    from src.seq_to_seq import SequenceToSequence
-    from src.data_utils import batch_flow_bucket as batch_flow
-    from src.word_sequence import WordSequence
-    from src.thread_generator import ThreadedGenerator
+def train(params):
+    from seq_to_seq import SequenceToSequence
+    from data_utils import batch_flow_bucket as batch_flow
+    from word_sequence import WordSequence
+    from thread_generator import ThreadedGenerator
 
     # 加载数据
     x_data, y_data = pickle.load(open('chatbot.pkl', 'rb'))
@@ -89,7 +89,6 @@ def test(params):
                 model.save(sess, save_path)
             flow.close()
 
-    # 训练2
     tf.reset_default_graph()
     model_pred = SequenceToSequence(
         input_vocab_size=len(ws),
@@ -121,6 +120,7 @@ def test(params):
             if t >= 3:
                 break
 
+    # 训练2
     tf.reset_default_graph()
     model_pred = SequenceToSequence(
         input_vocab_size=len(ws),
@@ -155,7 +155,7 @@ def test(params):
 
 def main():
     import json
-    test(json.load(open('params.json')))
+    train(json.load(open('params.json')))
 
 
 if __name__ == '__main__':

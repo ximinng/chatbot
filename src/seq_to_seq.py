@@ -20,8 +20,8 @@ from tensorflow.contrib.rnn import DropoutWrapper
 from tensorflow.contrib.rnn import ResidualWrapper
 # from tensorflow.contrib.rnn import LSTMStateTuple
 
-from src.word_sequence import WordSequence
-from src.data_utils import _get_embed_device
+from word_sequence import WordSequence
+from data_utils import _get_embed_device
 
 
 class SequenceToSequence(object):

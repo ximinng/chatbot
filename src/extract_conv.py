@@ -8,7 +8,7 @@ import pickle
 from tqdm import tqdm
 
 
-# 去掉非法字符
+# 去掉非法字符，合并句子
 def make_split(line):
     if re.match(r'.*([，…?!\.,!？])$', ''.join(line)):
         return []
@@ -35,11 +35,11 @@ def regular(sen):
 
 
 def main(limit=20, x_limit=3, y_limit=6):
-    from src.word_sequence import WordSequence
+    from word_sequence import WordSequence
 
     # 解压文件
     print('extract lines')
-    fp = open("dgk_shooter_min.conv", 'r', errors='ignore', encoding='utf-8')
+    fp = open("raw_data/dgk_shooter_min.conv", 'r', errors='ignore', encoding='utf-8')
     # 保存全部句子列表
     groups = []
     # 保存一行
@@ -59,7 +59,7 @@ def main(limit=20, x_limit=3, y_limit=6):
             line = line[:-1]
 
             group.append(list(regular(''.join(line))))
-        # E开头句子
+        # E开头句子---line.startswith('E ')
         else:
             if group:
                 groups.append(group)

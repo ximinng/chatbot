@@ -1,5 +1,11 @@
+# -*- coding: utf-8 -*-
+"""
+   Description : 线程生成器
+   Author :        xxm
+"""
 from threading import Thread
 from queue import Queue
+
 
 class ThreadedGenerator(object):
 
@@ -56,8 +62,8 @@ class ThreadedGenerator(object):
             raise StopIteration()
         return value
 
-def test():
 
+def test():
     def gene():
         i = 0
         while True:
@@ -72,6 +78,6 @@ def test():
 
     test.close()
 
+
 if __name__ == '__main__':
     test()
-

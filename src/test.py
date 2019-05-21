@@ -11,8 +11,8 @@ import tensorflow as tf
 
 
 def test(params):
-    from src.seq_to_seq import SequenceToSequence
-    from src.data_utils import batch_flow
+    from seq_to_seq import SequenceToSequence
+    from data_utils import batch_flow
 
     x_data, _ = pickle.load(open('chatbot.pkl', 'rb'))
     ws = pickle.load(open('ws.pkl', 'rb'))
