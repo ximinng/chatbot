@@ -101,6 +101,7 @@ ENV/
 *.pkl
 *.conv
 /raw_data/
+/data/
 
 # trained model
 model/

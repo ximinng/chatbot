@@ -67,7 +67,7 @@ def main(limit=20, x_limit=3, y_limit=6):
     if group:
         groups.append(group)
         group = []
-    print('extract group')
+    print('\nextract group')
 
     # 定义问答对
     x_data = []
@@ -135,9 +135,9 @@ def main(limit=20, x_limit=3, y_limit=6):
     print('dump')
     pickle.dump(
         (x_data, y_data),
-        open('chatbot.pkl', 'wb')
+        open('data/dgk_chatbot.pkl', 'wb')
     )
-    pickle.dump(ws_input, open('ws.pkl', 'wb'))
+    pickle.dump(ws_input, open('data/dgk_ws.pkl', 'wb'))
 
     print('done')
 
