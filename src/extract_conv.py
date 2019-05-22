@@ -40,7 +40,8 @@ def main(limit=20,  # 句子长度
     from word_sequence import WordSequence
 
     print('extract lines')
-    fp = open("raw_data/dgk_shooter_min.conv", 'r', errors='ignore', encoding='utf-8')
+    # fp = open("raw_data/dgk_shooter_min.conv", 'r', errors='ignore', encoding='utf-8')
+    fp = open("raw_data/xiaohuangji50w_fenciA.conv", 'r', errors='ignore', encoding='utf-8')
 
     # 保存全部句子列表
     groups = []
@@ -56,7 +57,8 @@ def main(limit=20,  # 句子长度
                 line = line[2:].split('/')  # 斜杠切分
             else:
                 line = list(line[2:])
-            line = line[:-1]
+            # line = line[:-1] --- dgk
+            line = line[:]
 
             group.append(list(regular(''.join(line))))
 
@@ -116,7 +118,7 @@ def main(limit=20,  # 句子长度
     """组装数据"""
     data = list(zip(x_data, y_data))
 
-    # 组装规则: 3<问句长度<20 and 6<回答长度<20
+    # 组装规则: (默认) 3<问句长度<20 and 6<回答长度<20
     data = [
         (x, y) for x, y in data
         if len(x) < limit and len(y) < limit and len(y) >= y_limit and len(x) >= x_limit
@@ -132,9 +134,10 @@ def main(limit=20,  # 句子长度
     print('dump')
     pickle.dump(
         (x_data, y_data),
-        open('data/dgk_chatbot.pkl', 'wb')
+        # open('data/dgk_chatbot.pkl', 'wb')
+        open('data/xiaohaungji_chatbot.pkl', 'wb')
     )
-    pickle.dump(ws_input, open('data/dgk_ws.pkl', 'wb'))
+    pickle.dump(ws_input, open('data/xiaohuangji_ws.pkl', 'wb'))
 
     print('done')
 

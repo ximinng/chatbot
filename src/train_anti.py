@@ -17,10 +17,10 @@ def train(params):
     from thread_generator import ThreadedGenerator
 
     # 加载数据
-    x_data, y_data = pickle.load(open('chatbot.pkl', 'rb'))
-    ws = pickle.load(open('ws.pkl', 'rb'))
+    x_data, y_data = pickle.load(open('data/xiaohaungji_chatbot.pkl', 'rb'))
+    ws = pickle.load(open('data/xiaohuangji_ws.pkl', 'rb'))
 
-    n_epoch = 40  # 训练轮次
+    n_epoch = 200  # 训练轮次
     batch_size = 128
     steps = int(len(x_data) / batch_size) + 1
 
@@ -30,7 +30,8 @@ def train(params):
     )
 
     # 模型保存路径
-    save_path = './model/s2ss_chatbot_anti.ckpt'
+    # save_path = './model/s2ss_chatbot_anti.ckpt'
+    save_path = './xiaohaungji_model/s2ss_chatbot_anti.ckpt'
 
     # 训练1
     tf.reset_default_graph()
@@ -113,9 +114,9 @@ def train(params):
                 np.array(x),
                 np.array(xl)
             )
-            print(ws.inverse_transform(x[0]))
-            print(ws.inverse_transform(y[0]))
-            print(ws.inverse_transform(pred[0]))
+            # print(ws.inverse_transform(x[0]))
+            # print(ws.inverse_transform(y[0]))
+            # print(ws.inverse_transform(pred[0]))
             t += 1
             if t >= 3:
                 break
@@ -145,9 +146,9 @@ def train(params):
                 np.array(x),
                 np.array(xl)
             )
-            print(ws.inverse_transform(x[0]))
-            print(ws.inverse_transform(y[0]))
-            print(ws.inverse_transform(pred[0]))
+            # print(ws.inverse_transform(x[0]))
+            # print(ws.inverse_transform(y[0]))
+            # print(ws.inverse_transform(pred[0]))
             t += 1
             if t >= 3:
                 break

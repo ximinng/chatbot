@@ -1,8 +1,8 @@
 {
   "bidirectional": true,
   "use_residual": true,
-  "use_dropout": true,
-  "time_major": true,
+  "use_dropout": false,
+  "time_major": false,
   "cell_type": "lstm",
   "depth": 4,
   "attention_type": "Bahdanau",
