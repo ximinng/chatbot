@@ -16,8 +16,10 @@ def test(params):
     from src.data_utils import batch_flow_bucket as batch_flow
     from src.thread_generator import ThreadedGenerator
 
+    """dgk语料"""
     # x_data, y_data = pickle.load(open('chatbot.pkl', 'rb'))
     # ws = pickle.load(open('ws.pkl', 'rb'))
+    """xiaohaungji语料"""
     x_data, y_data = pickle.load(open('data/xiaohaungji_chatbot.pkl', 'rb'))
     ws = pickle.load(open('data/xiaohuangji_ws.pkl', 'rb'))
 
@@ -121,7 +123,10 @@ def test(params):
 
 def main():
     import json
-    test(json.load(open('params.json')))
+    """dgk语料"""
+    # test(json.load(open('params.json')))
+    """xiaohaungji语料"""
+    test(json.load(open('xiaohaungji_model/params.json')))
 
 
 if __name__ == '__main__':

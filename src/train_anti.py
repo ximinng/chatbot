@@ -156,7 +156,10 @@ def train(params):
 
 def main():
     import json
-    train(json.load(open('params.json')))
+    """dgk语料"""
+    # train(json.load(open('params.json')))
+    """xiaohaungji语料"""
+    train(json.load(open('xiaohaungji_model/params.json')))
 
 
 if __name__ == '__main__':

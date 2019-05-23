@@ -14,8 +14,13 @@ def test(params):
     from seq_to_seq import SequenceToSequence
     from data_utils import batch_flow
 
-    x_data, _ = pickle.load(open('chatbot.pkl', 'rb'))
-    ws = pickle.load(open('ws.pkl', 'rb'))
+    """dgk语料"""
+    # x_data, _ = pickle.load(open('chatbot.pkl', 'rb'))
+    # ws = pickle.load(open('ws.pkl', 'rb'))
+
+    """xiaohaungji语料"""
+    x_data, _ = pickle.load(open('data/xiaohaungji_chatbot.pkl', 'rb'))
+    ws = pickle.load(open('data/xiaohuangji_ws.pkl', 'rb'))
 
     # 取前五条数据
     for x in x_data[:5]:
@@ -29,7 +34,7 @@ def test(params):
     )
 
     # 读取模型路径
-    save_path = './model/s2ss_chatbot_anti.ckpt'
+    save_path = './xiaohaungji_model/s2ss_chatbot_anti.ckpt'
     # save_path = './model/s2ss_chatbot.ckpt'
 
     tf.reset_default_graph()
@@ -56,16 +61,16 @@ def test(params):
             x, xl = next(bar)
             x = np.flip(x, axis=1)
 
-            print(x, xl)
+            # print(x, xl)
 
             pred = model_pred.predict(
                 sess,
                 encoder_inputs=np.array(x),
                 encoder_inputs_length=np.array(xl)
             )
-            print(pred)
+            # print(pred)
 
-            print(ws.inverse_transform(x[0]))
+            # print(ws.inverse_transform(x[0]))
 
             for p in pred:
                 ans = ws.inverse_transform(p)
@@ -75,7 +80,11 @@ def test(params):
 
 def main():
     import json
-    test(json.load(open('params.json')))
+
+    """dgk语料"""
+    # test(json.load(open('params.json')))
+    """xiaohaungji语料"""
+    test(json.load(open('xiaohaungji_model/params.json')))
 
 
 if __name__ == '__main__':

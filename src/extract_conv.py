@@ -40,7 +40,9 @@ def main(limit=20,  # 句子长度
     from word_sequence import WordSequence
 
     print('extract lines')
+    """dgk语料"""
     # fp = open("raw_data/dgk_shooter_min.conv", 'r', errors='ignore', encoding='utf-8')
+    """xiaohuangji语料"""
     fp = open("raw_data/xiaohuangji50w_fenciA.conv", 'r', errors='ignore', encoding='utf-8')
 
     # 保存全部句子列表
