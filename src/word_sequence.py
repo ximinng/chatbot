@@ -124,7 +124,7 @@ class WordSequence(object):
 
         if max_len is not None:
             res = [self.PAD] * max_len
-            print(res)
+            # print(res)
         else:
             res = [self.PAD] * len(sentences)
 

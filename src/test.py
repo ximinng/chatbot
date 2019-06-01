@@ -61,16 +61,16 @@ def test(params):
             x, xl = next(bar)
             x = np.flip(x, axis=1)
 
-            # print(x, xl)
+            print(x, xl)
 
             pred = model_pred.predict(
                 sess,
                 encoder_inputs=np.array(x),
                 encoder_inputs_length=np.array(xl)
             )
-            # print(pred)
+            print(pred)
 
-            # print(ws.inverse_transform(x[0]))
+            print(ws.inverse_transform(x[0]))
 
             for p in pred:
                 ans = ws.inverse_transform(p)

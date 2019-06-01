@@ -35,8 +35,8 @@ def regular(sen):
 
 
 def main(limit=20,  # 句子长度
-         x_limit=3,
-         y_limit=6):
+         x_limit=1,
+         y_limit=2):
     from word_sequence import WordSequence
 
     print('extract lines')
@@ -59,8 +59,8 @@ def main(limit=20,  # 句子长度
                 line = line[2:].split('/')  # 斜杠切分
             else:
                 line = list(line[2:])
-            # line = line[:-1] --- dgk
-            line = line[:]
+            line = line[:-1]
+            # line = line[:]
 
             group.append(list(regular(''.join(line))))
 
@@ -78,7 +78,6 @@ def main(limit=20,  # 句子长度
     x_data = []
     y_data = []
 
-    # 进度条显示
     for group in tqdm(groups):
         for index, line in enumerate(group):
             last_line = None

@@ -114,9 +114,9 @@ def train(params):
                 np.array(x),
                 np.array(xl)
             )
-            # print(ws.inverse_transform(x[0]))
-            # print(ws.inverse_transform(y[0]))
-            # print(ws.inverse_transform(pred[0]))
+            print(ws.inverse_transform(x[0]))
+            print(ws.inverse_transform(y[0]))
+            print(ws.inverse_transform(pred[0]))
             t += 1
             if t >= 3:
                 break
@@ -146,9 +146,9 @@ def train(params):
                 np.array(x),
                 np.array(xl)
             )
-            # print(ws.inverse_transform(x[0]))
-            # print(ws.inverse_transform(y[0]))
-            # print(ws.inverse_transform(pred[0]))
+            print(ws.inverse_transform(x[0]))
+            print(ws.inverse_transform(y[0]))
+            print(ws.inverse_transform(pred[0]))
             t += 1
             if t >= 3:
                 break

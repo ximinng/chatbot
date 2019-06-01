@@ -23,15 +23,8 @@ def test(params):
     x_data, y_data = pickle.load(open('data/xiaohaungji_chatbot.pkl', 'rb'))
     ws = pickle.load(open('data/xiaohuangji_ws.pkl', 'rb'))
 
-    # 训练
-    """
-    1.n_epoch是训练的轮次数；
-    2.理论上来讲训练的轮次数越大，那么训练的精度越高；
-    3.如果训练的轮次数特别大，比如1000，那么有可能会发生过拟合的现象，但是是否过拟合也和训练的数据有关
-    4.n_epoch越大，训练的时间越长；
-    5.P5000的GPU训练40轮，训练了大概3天。训练2轮，大概一个半小时，
-    """
-    n_epoch = 1
+    """训练"""
+    n_epoch = 1  # 训练轮数
     batch_size = 128
 
     steps = int(len(x_data) / batch_size) + 1
@@ -44,7 +37,6 @@ def test(params):
     # 模型保存的路径
     # save_path = './model/s2ss_chatbot.ckpt'
     save_path = './xiaohaungji_model/s2ss_chatbot_anti.ckpt'
-
 
     tf.reset_default_graph()
     with tf.Graph().as_default():
