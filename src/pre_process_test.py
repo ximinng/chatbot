@@ -44,7 +44,7 @@ def main(limit=30,  # 句子长度
     """dgk语料"""
     # fp = open("raw_data/dgk_shooter_min.conv", 'r', errors='ignore', encoding='utf-8')
     """xiaohuangji语料"""
-    fp = open("raw_data/xiaohuangji50w_fenciA.conv", 'r', errors='ignore', encoding='utf-8')
+    fp = open("raw_data/xiaohaungji50w_test.conv", 'r', errors='ignore', encoding='utf-8')
 
     # 保存全部句子列表
     groups = []
@@ -58,13 +58,14 @@ def main(limit=30,  # 句子长度
 
             if '/' in line:
                 line = line[2:].split('/')  # 去掉斜杠 -> return <list>
-                line = list(regular(''.join(line)))  # 去掉不好的句子
+                line = list(regular(''.join(line)))  # 去掉词语
 
-                line = jieba.lcut(''.join(line))  # jieba分词
+                line = jieba.lcut(''.join(line))
             else:
                 line = list(line[2:])
 
             group.append(line)
+            print(group)
 
         else:  # E开头句子---line.startswith('E ')
             if group:
@@ -74,6 +75,7 @@ def main(limit=30,  # 句子长度
     if group:
         groups.append(group)
         group = []
+
     print('\nextract group')
 
     """定义问答对"""
@@ -113,36 +115,36 @@ def main(limit=30,  # 句子长度
     print('\n问句数量：' + str(len(x_data)), '答句数量：' + str(len(y_data)))
 
     # 将问答对放入zip object(至多20字符)
-    for ask, answer in zip(x_data[:30], y_data[:30]):
-        print(''.join(ask))
-        print(''.join(answer))
-        print('-' * 20)
-
-    """组装数据"""
-    data = list(zip(x_data, y_data))
-
-    # 组装规则:
-    data = [
-        (x, y) for x, y in data
-        if len(x) < limit and len(y) < limit and len(y) >= y_limit and len(x) >= x_limit
-    ]
-    x_data, y_data = zip(*data)
-
-    # word_sequence模型训练
-    print('fit word_sequence')
-    ws_input = WordSequence()
-    ws_input.fit(x_data + y_data)
-
-    # 保存 (pickle格式)
-    print('dump')
-    pickle.dump(
-        (x_data, y_data),
-        # open('data/dgk_chatbot.pkl', 'wb')
-        open('data/xiaohaungji_chatbot.pkl', 'wb')
-    )
-    pickle.dump(ws_input, open('data/xiaohuangji_ws.pkl', 'wb'))
-
-    print('done')
+    # for ask, answer in zip(x_data[:30], y_data[:30]):
+    #     print(''.join(ask))
+    #     print(''.join(answer))
+    #     print('-' * 20)
+    #
+    # """组装数据"""
+    # data = list(zip(x_data, y_data))
+    #
+    # # 组装规则:
+    # data = [
+    #     (x, y) for x, y in data
+    #     if len(x) < limit and len(y) < limit and len(y) >= y_limit and len(x) >= x_limit
+    # ]
+    # x_data, y_data = zip(*data)
+    #
+    # # word_sequence模型训练
+    # print('fit word_sequence')
+    # ws_input = WordSequence()
+    # ws_input.fit(x_data + y_data)
+    #
+    # # 保存 (pickle格式)
+    # print('dump')
+    # pickle.dump(
+    #     (x_data, y_data),
+    #     # open('data/dgk_chatbot.pkl', 'wb')
+    #     open('data/xiaohaungji_chatbot.pkl', 'wb')
+    # )
+    # pickle.dump(ws_input, open('data/xiaohuangji_ws.pkl', 'wb'))
+    #
+    # print('done')
 
 
 if __name__ == '__main__':

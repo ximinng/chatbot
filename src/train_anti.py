@@ -20,7 +20,7 @@ def train(params):
     x_data, y_data = pickle.load(open('data/xiaohaungji_chatbot.pkl', 'rb'))
     ws = pickle.load(open('data/xiaohuangji_ws.pkl', 'rb'))
 
-    n_epoch = 200  # 训练轮次
+    n_epoch = 1  # 训练轮次
     batch_size = 128
     steps = int(len(x_data) / batch_size) + 1
 
