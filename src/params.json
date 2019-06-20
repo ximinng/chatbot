@@ -1,7 +1,7 @@
 {
   "bidirectional": true,
   "use_residual": true,
-  "use_dropout": false,
+  "use_dropout": true,
   "time_major": false,
   "cell_type": "lstm",
   "depth": 4,

@@ -35,9 +35,9 @@ def regular(sen):
     return sen
 
 
-def main(limit=30,  # 句子长度
-         x_limit=1,
-         y_limit=2):
+def main(limit=35,  # 句子长度
+         x_limit=1,  # 问句长度
+         y_limit=1):  # 答句长度
     from word_sequence import WordSequence
 
     print('extract lines')
@@ -138,9 +138,9 @@ def main(limit=30,  # 句子长度
     pickle.dump(
         (x_data, y_data),
         # open('data/dgk_chatbot.pkl', 'wb')
-        open('data/xiaohaungji_chatbot.pkl', 'wb')
+        open('chatbot_2/xiaohaungji_chatbot.pkl', 'wb')
     )
-    pickle.dump(ws_input, open('data/xiaohuangji_ws.pkl', 'wb'))
+    pickle.dump(ws_input, open('chatbot_2/xiaohuangji_ws.pkl', 'wb'))
 
     print('done')
 

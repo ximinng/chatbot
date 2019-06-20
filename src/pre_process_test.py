@@ -65,7 +65,7 @@ def main(limit=30,  # 句子长度
                 line = list(line[2:])
 
             group.append(line)
-            print(group)
+            # print(group)
 
         else:  # E开头句子---line.startswith('E ')
             if group:
@@ -83,58 +83,44 @@ def main(limit=30,  # 句子长度
     y_data = []
 
     for group in tqdm(groups):
+        # print(group)
         for index, line in enumerate(group):
-            last_line = None
-            if index > 0:
-                last_line = group[index - 1]
-                # 去掉无用句子
-                if not good_line(last_line):
-                    last_line = None
-            next_line = None
-            if index < len(group) - 1:
-                next_line = group[index + 1]
-                if not good_line(next_line):
-                    next_line = None
-            next_next_line = None
-            if index < len(group) - 2:
-                next_next_line = group[index + 2]
-                if not good_line(next_next_line):
-                    next_next_line = None
+            if index ==0 and good_line(line) : x_data.append(line)
+            if index ==1 and good_line(line) : y_data.append(line)
 
-            if next_line:
-                x_data.append(line)
-                y_data.append(next_line)
-            if last_line and next_line:
-                x_data.append(last_line + make_split(last_line) + line)
-                y_data.append(next_line)
-            if next_line and next_next_line:
-                x_data.append(line)
-                y_data.append(next_line + make_split(next_line) + next_next_line)
+    print(x_data)
+    print(y_data)
 
     # 问答对数据量
     print('\n问句数量：' + str(len(x_data)), '答句数量：' + str(len(y_data)))
 
     # 将问答对放入zip object(至多20字符)
-    # for ask, answer in zip(x_data[:30], y_data[:30]):
-    #     print(''.join(ask))
-    #     print(''.join(answer))
-    #     print('-' * 20)
-    #
-    # """组装数据"""
-    # data = list(zip(x_data, y_data))
-    #
-    # # 组装规则:
-    # data = [
-    #     (x, y) for x, y in data
-    #     if len(x) < limit and len(y) < limit and len(y) >= y_limit and len(x) >= x_limit
-    # ]
-    # x_data, y_data = zip(*data)
-    #
-    # # word_sequence模型训练
-    # print('fit word_sequence')
+    for ask, answer in zip(x_data[:30], y_data[:30]):
+        print(''.join(ask))
+        print(''.join(answer))
+        print('-' * 20)
+    
+    """组装数据"""
+    data = list(zip(x_data, y_data))
+    
+    # 组装规则:
+    data = [
+        (x, y) for x, y in data
+        if len(x) < limit and len(y) < limit and len(y) >= y_limit and len(x) >= x_limit
+    ]
+    x_data, y_data = zip(*data)
+    
+    # word_sequence模型训练
+    print('fit word_sequence')
+    from gensim.models import word2vec
+    import gensim
+    sentences = word2vec.Text8Corpus(train_file_name)  # 加载语料
+    model = gensim.models.Word2Vec(sentences, size=200)  # 训练skip-gram模型; 默认window=5
+
+
     # ws_input = WordSequence()
     # ws_input.fit(x_data + y_data)
-    #
+    
     # # 保存 (pickle格式)
     # print('dump')
     # pickle.dump(

@@ -19,12 +19,12 @@ def test(params):
     # ws = pickle.load(open('ws.pkl', 'rb'))
 
     """xiaohaungji语料"""
-    x_data, _ = pickle.load(open('data/xiaohaungji_chatbot.pkl', 'rb'))
-    ws = pickle.load(open('data/xiaohuangji_ws.pkl', 'rb'))
+    # x_data, _ = pickle.load(open('data/xiaohaungji_chatbot.pkl', 'rb'))
+    # ws = pickle.load(open('data/xiaohuangji_ws.pkl', 'rb'))
 
     # 取前五条数据
-    for x in x_data[:5]:
-        print(' '.join(x))
+    # for x in x_data[:5]:
+    #     print(' '.join(x))
 
     # GPU or CPU
     config = tf.ConfigProto(
@@ -34,7 +34,7 @@ def test(params):
     )
 
     # 读取模型路径
-    save_path = './xiaohaungji_model/s2ss_chatbot_anti.ckpt'
+    # save_path = './xiaohaungji_model/s2ss_chatbot_anti.ckpt'
     # save_path = './model/s2ss_chatbot.ckpt'
 
     tf.reset_default_graph()
@@ -42,8 +42,9 @@ def test(params):
         input_vocab_size=len(ws),
         target_vocab_size=len(ws),
         batch_size=1,
+        # batch_size=256,
         mode='decode',
-        beam_width=0,
+        # beam_width=0,
         **params
     )
     init = tf.global_variables_initializer()
@@ -84,7 +85,7 @@ def main():
     """dgk语料"""
     # test(json.load(open('params.json')))
     """xiaohaungji语料"""
-    test(json.load(open('xiaohaungji_model/params.json')))
+    # test(json.load(open('xiaohaungji_model/params.json')))
 
 
 if __name__ == '__main__':

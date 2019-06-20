@@ -24,7 +24,7 @@ def test(params):
     ws = pickle.load(open('data/xiaohuangji_ws.pkl', 'rb'))
 
     """训练"""
-    n_epoch = 1  # 训练轮数
+    n_epoch = 150  # 训练轮数
     batch_size = 128
 
     steps = int(len(x_data) / batch_size) + 1

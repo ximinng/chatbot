@@ -15,8 +15,12 @@ def test(params, infos):
     from src.seq_to_seq import SequenceToSequence
     from src.data_utils import batch_flow
 
-    x_data, _ = pickle.load(open('chatbot.pkl', 'rb'))
-    ws = pickle.load(open('ws.pkl', 'rb'))
+    """xiaohaungji语料"""
+    x_data, _ = pickle.load(open('data/xiaohaungji_chatbot.pkl', 'rb'))
+    ws = pickle.load(open('data/xiaohuangji_ws.pkl', 'rb'))
+
+    # x_data, _ = pickle.load(open('data/chatbot.pkl', 'rb'))
+    # ws = pickle.load(open('data/ws.pkl', 'rb'))
 
     config = tf.ConfigProto(
         device_count={'CPU': 1, 'GPU': 0},
@@ -24,7 +28,8 @@ def test(params, infos):
         log_device_placement=False
     )
 
-    save_path = './model/s2ss_chatbot_anti.ckpt'
+    save_path = './xiaohaungji_model/s2ss_chatbot_anti.ckpt'
+    # save_path = './model/s2ss_chatbot_anti.ckpt'
 
     tf.reset_default_graph()
     model_pred = SequenceToSequence(
@@ -68,7 +73,10 @@ def chatbot():
     infos = request.args['infos']
 
     import json
-    text = test(json.load(open('params.json')), infos)
+    # text = test(json.load(open('params.json')), infos)
+    """xiaohaungji语料"""
+    text = test(json.load(open('xiaohaungji_model/params.json')), infos)
+
     # return text
     return "".join(text)
 
