@@ -20,6 +20,8 @@
 
 * Encoder-decoder 加解密模型
 
+![Encoder-Decoder](https://github.com/learnmedicalcantsavecn/chatbot/blob/master/img/encoder-decoder.png)
+
 在以往的研究中，我们会发现实际上智能对话系统问题可以被很好地应用到的自然语言的机器翻译框架中，我们可以将用户提出的问题作文输入机器翻译模型的源序列，
 系统返回的答案则可以作为翻译模型的目标序列。因此，机器翻译领域相对成熟的技术与问答系统所需要的框架模型有了很好的可比性，Ritter 等人借鉴了统计机器翻译的手段，
 使用 Twitter 上的未被结构化的对话数据集，提出了一个问答生成模型的框架。
@@ -27,6 +29,8 @@ Encoder-decoder 框架目前发展较为成熟，在文本处理领域已经成�
 它除了在已有的文本摘要提取、机器翻译、词句法分析方面有很大的贡献之外，在本课题中，也可以被应用到人机对话和智能问答领域。
 
 * Attention 注意力机制
+
+![Attention](https://github.com/learnmedicalcantsavecn/chatbot/blob/master/img/attention.png)
 
 Attention 结构的核心优点就是通过在模型“decoder”阶段对相关的源内容给予“关注”，从而可以在目标句子和源句子之间建立直接又简短的连接，解决机器人模型和用户之间的信息断层问题。
 注意力机制如今作为一种事实标准，已经被有效地应用到很多其他的领域中，比如图片捕获生成，语音识别以及文字摘要等。
