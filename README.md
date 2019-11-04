@@ -78,11 +78,13 @@ Consider buying me one if you find this content useful ☕️😉.
 
 <h2 align="center">关于 - About</h2>
 
-* 数据 -- 使用互联网公开的数据集:
+* []数据 -- 使用互联网公开的数据集:
 
     * 中文电影对话 dgk_shooter_min.conv
-
+    
     * 小黄鸡语料 xiaohuangji50w_fenciA.conv
+    
+**你可以在[这里](https://github.com/candlewill/Dialog_Corpus)找到数据**
 
 * NLP相关    
     
@@ -119,7 +121,13 @@ Consider buying me one if you find this content useful ☕️😉.
 
 感谢这些Paper给了我启示：
 
-[智能聊天机器人的技术综述](#)
+[智能聊天机器人的技术综述](https://github.com/ximingxing/chatbot/blob/master/paper/%E6%99%BA%E8%83%BD%E8%81%8A%E5%A4%A9%E6%9C%BA%E5%99%A8%E4%BA%BA%E7%9A%84%E6%8A%80%E6%9C%AF%E7%BB%BC%E8%BF%B0.pdf)
+
+[AliMe Chat A Sequence to Sequence and Rerank based Chatbot Engine](https://github.com/ximingxing/chatbot/blob/master/)
+
+[Neural Responding Machine for Short-Text Conversation]()
+
+[Sequence to Sequence Learningwith Neural Networks]()
 
 Search for a specific pattern. Can't find one? Please report a new pattern [here](https://github.com/ximingxing/Machine-Learning-in-Action/issues).
 
