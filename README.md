@@ -24,8 +24,9 @@
 <a href="https://ximingxing.github.io/">https://ximingxing.github.io/</a>
 </h6>
 
-智能聊天机器人作为自然语言处理的一个重要分支， 是目前最火热也最具挑战的研究方向，它对于促进人机交互方式 的发展有着重要的意义。
-
+智能聊天机器人作为自然语言处理的一个重要分支，是目前最火热也最具挑战的研究方向，它对于促进人机交互方式的发展有着重要的意义。
+本项目基于Encoder-decoder模型，以及在此基础上完成的聊天机器人系统。
+最后，给出了参考的开源代码以及可使用的数据以供读者使用 
 本项目可用作学习使用或毕业设计，相关问题可与我联系。
 
 Open Source runs on love, laughter and a whole lot of coffee. 
@@ -121,13 +122,13 @@ Consider buying me one if you find this content useful ☕️😉.
 
 感谢这些Paper给了我启示：
 
-[智能聊天机器人的技术综述](https://github.com/ximingxing/chatbot/blob/master/paper/%E6%99%BA%E8%83%BD%E8%81%8A%E5%A4%A9%E6%9C%BA%E5%99%A8%E4%BA%BA%E7%9A%84%E6%8A%80%E6%9C%AF%E7%BB%BC%E8%BF%B0.pdf)
+* [智能聊天机器人的技术综述](https://github.com/ximingxing/chatbot/blob/master/paper/%E6%99%BA%E8%83%BD%E8%81%8A%E5%A4%A9%E6%9C%BA%E5%99%A8%E4%BA%BA%E7%9A%84%E6%8A%80%E6%9C%AF%E7%BB%BC%E8%BF%B0.pdf)
 
-[AliMe Chat A Sequence to Sequence and Rerank based Chatbot Engine](https://github.com/ximingxing/chatbot/blob/master/)
+* [AliMe Chat A Sequence to Sequence and Rerank based Chatbot Engine](https://github.com/ximingxing/chatbot/blob/master/paper/AliMe%20Chat%20A%20Sequence%20to%20Sequence%20and%20Rerank%20based%20Chatbot%20Engine.pdf)
 
-[Neural Responding Machine for Short-Text Conversation]()
+* [Neural Responding Machine for Short-Text Conversation](https://github.com/ximingxing/chatbot/blob/master/paper/Neural%20Responding%20Machine%20for%20Short-Text%20Conversation.pdf)
 
-[Sequence to Sequence Learningwith Neural Networks]()
+* [Sequence to Sequence Learningwith Neural Networks](https://github.com/ximingxing/chatbot/blob/master/paper/Sequence%20to%20Sequence%20Learningwith%20Neural%20Networks.pdf)
 
 Search for a specific pattern. Can't find one? Please report a new pattern [here](https://github.com/ximingxing/Machine-Learning-in-Action/issues).
 
