@@ -77,6 +77,12 @@ Consider buying me one if you find this content useful ☕️😉.
 
 7. `web.py` 提供restful接口的api
 
+**对于传统机器学习方法，本项目也给出了一个基于chatterbot的示例**
+
+* 位于`src/serach_bot/bot.py`中
+
+    如果读者感兴趣可以在[这里](https://chatterbot.readthedocs.io/en/stable/setup.html)看到更多信息
+
 <h2 align="center">关于 - About</h2>
 
 * []数据 -- 使用互联网公开的数据集:
