@@ -110,9 +110,9 @@ def main(limit=20, x_limit=3, y_limit=6):
 
     pickle.dump(
         (x_data, y_data),
-        open('chatbot_2/chatbot.pkl', 'wb')
+        open('data/chatbot.pkl', 'wb')
     )
-    pickle.dump(ws_input, open('chatbot_2/ws.pkl', 'wb'))
+    pickle.dump(ws_input, open('data/ws.pkl', 'wb'))
 
     print('done')
 

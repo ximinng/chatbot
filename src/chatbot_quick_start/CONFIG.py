@@ -51,9 +51,9 @@ model_config = {
     "learning_rate": 0.001,
     "decay_step": 100000,
     # 学习率允许的最小值
-    "min_learning_rate":1e-6,
+    "min_learning_rate": 1e-6,
     # 编码器是否使用双向rnn
-    "bidirection":True,
+    "bidirection": True,
     # BeamSearch时的宽度
-    "beam_width":200
+    "beam_width": 200
 }
