@@ -136,7 +136,7 @@ Consider buying me one if you find this content useful ☕️😉.
 
 * [Sequence to Sequence Learningwith Neural Networks](https://github.com/ximingxing/chatbot/blob/master/paper/Sequence%20to%20Sequence%20Learningwith%20Neural%20Networks.pdf)
 
-Search for a specific pattern. Can't find one? Please report a new pattern [here](https://github.com/ximingxing/Machine-Learning-in-Action/issues).
+Search for a specific pattern. Can't find one? Please report a new pattern [here](https://github.com/ximingxing/chatbot/issues).
 
 <h2 align="center">:speech_balloon: FAQ</h2>
 <p align="right"><a href="#chatbot"><sup>▴ Back to top</sup></a></p>
