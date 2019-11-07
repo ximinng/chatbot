@@ -38,7 +38,7 @@ Consider buying me one if you find this content useful ☕️😉.
 2. 开启你的虚拟环境（conda env） -- activate your virtualenv
 3. 执行`pip install -r requirements.txt in your shell` -- run:  `pip install -r requirements.txt in your shell`
 
-**至此，你已经安装了本项目所需要的全部环境**
+**至此，你已经安装了本项目所需要的[全部环境](#speech_balloon-faq)**
 
 4. 执行`cd src/chatbot_quick_start`
 
@@ -85,7 +85,7 @@ Consider buying me one if you find this content useful ☕️😉.
 
 <h2 align="center">关于 - About</h2>
 
-* []数据 -- 使用互联网公开的数据集:
+* 数据 -- 使用互联网公开的数据集:
 
     * 中文电影对话 dgk_shooter_min.conv
     
@@ -140,3 +140,26 @@ Search for a specific pattern. Can't find one? Please report a new pattern [here
 
 <h2 align="center">:speech_balloon: FAQ</h2>
 <p align="right"><a href="#chatbot"><sup>▴ Back to top</sup></a></p>
+
+Q: 项目涉及的第三方库有哪些？
+
+A: 软件表
+
+Software | Version
+------------ | ------------
+absl-py | 0.7.1
+astor | 0.7.1
+bleach | 1.5.0
+gast | 0.2.2
+grpcio | 1.20.0
+html5lib | 0.9999999
+Markdown | 3.1
+numpy | 1.16.2
+protobuf | 3.7.1
+six | 1.12.0
+tensorboard | 1.6.0
+tensorflow-gpu | 1.6.0
+termcolor | 1.1.0
+tornado | 6.0.2
+tqdm | 4.31.1
+Werkzeug | 0.15.2
