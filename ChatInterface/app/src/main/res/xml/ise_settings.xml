@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+    <ListPreference 
+        android:key="language"
+        android:title="评测语种"
+        android:summary=""
+        android:entries="@array/ise_language_entries"
+        android:entryValues="@array/ise_language_values"
+        android:defaultValue="zh_cn"/>
+    
+    <ListPreference 
+        android:key="category"
+        android:title="评测题型"
+        android:summary=""
+        android:entries="@array/category_entries"
+        android:entryValues="@array/category_values"
+        android:defaultValue="read_sentence"/>
+    
+    <ListPreference 
+        android:key="result_level"
+        android:title="结果等级"
+        android:summary=""
+        android:entries="@array/result_level_entries"
+        android:entryValues="@array/result_level_entries"
+        android:defaultValue="complete"/>
+    
+    <EditTextPreference 
+        android:key="vad_bos"
+        android:title="前端点超时"
+        android:summary=""
+        android:defaultValue="5000"/>
+    
+    <EditTextPreference 
+        android:key="vad_eos"
+        android:title="后端点超时"
+        android:summary=""
+        android:defaultValue="1800"/>
+        
+   	<EditTextPreference 
+        android:key="speech_timeout"
+        android:title="评测超时"
+        android:summary=""
+        android:defaultValue="-1"/>
+   		
+    
+</PreferenceScreen>

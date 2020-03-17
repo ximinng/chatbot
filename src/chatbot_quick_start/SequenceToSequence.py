@@ -10,7 +10,7 @@ from tensorflow.contrib.rnn import LSTMCell, GRUCell, MultiRNNCell, LSTMStateTup
 from tensorflow.contrib.seq2seq import BahdanauAttention, AttentionWrapper, TrainingHelper, BasicDecoder, \
     BeamSearchDecoder
 from tensorflow import layers
-from DataProcessing import DataUnit
+from .DataProcessing import DataUnit
 from tensorflow.python.ops import array_ops
 
 

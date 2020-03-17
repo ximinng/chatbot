@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/menu_top"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal"
+        android:background="@android:color/white">
+
+        <Button
+            android:id="@+id/btn_reback"
+            android:layout_width="65dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="返回"
+            android:textColor="@android:color/white"
+            android:background="@android:color/holo_blue_light"/>
+
+        <TextView
+            android:id="@+id/usr_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="用户名"
+            android:textColor="@android:color/holo_blue_dark"
+            android:gravity="center"/>
+
+        <Button
+            android:id="@+id/usr_attr"
+            android:layout_width="65dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="属性"
+            android:textColor="@android:color/white"
+            android:background="@android:color/holo_blue_light"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:layout_below="@+id/menu_top"/>
+
+    <RelativeLayout
+        android:id="@+id/menu_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:background="@android:color/white">
+
+        <Button
+            android:id="@+id/btn_phonetics"
+            android:layout_width="65dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="语音"
+            android:textColor="@android:color/white"
+            android:background="@android:color/holo_blue_light"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_toRightOf="@+id/btn_phonetics"
+            android:layout_toLeftOf="@+id/btn_send"
+            android:hint="请输入要发送的消息"
+            android:textSize="17sp"
+            android:textColorHint="@android:color/darker_gray"
+            android:textColor="@android:color/holo_blue_dark"
+            android:paddingLeft="15dp"/>
+
+        <Button
+            android:id="@+id/btn_send"
+            android:layout_width="65dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="发送"
+            android:textColor="@android:color/white"
+            android:background="@android:color/holo_blue_light"/>
+
+    </RelativeLayout>
+
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/menu_top"
+        android:layout_above="@+id/menu_bottom"
+        android:layout_centerInParent="true">
+    </ListView>
+
+</RelativeLayout>

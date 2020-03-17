@@ -7,7 +7,7 @@
     <a href="http://www.apache.org/licenses/">
         <img src="https://img.shields.io/badge/license-Apache-blue" alt="GitHub">
     </a>
-    <a href="https://github.com/ximingxing/Machine-Learning-in-Action/pulls">
+    <a href="https://github.com/ximingxing/chatbot/pulls">
         <img src="https://img.shields.io/static/v1.svg?label=Contributions&message=Welcome&color=0059b3&style=flat-square" alt="welcome">
     </a>
 </p>
@@ -82,6 +82,13 @@ Consider buying me one if you find this content useful ☕️😉.
 * 位于`src/serach_bot/bot.py`中
 
     如果读者感兴趣可以在[这里](https://chatterbot.readthedocs.io/en/stable/setup.html)看到更多信息
+
+**完整的项目 -- 安卓智能聊天机器人**
+
+`ChatInterface\` 目录下是关于安卓界面的源文件，使用Android studio打开并编译此目录即可得到App文件，
+这里我是用NOX(夜神模拟器)虚拟安卓系统，并基于NOX进行APP测试，NOX Debug脚本位于`ChatInterface/nox.bat`，
+（对应windows系统）
+
 
 <h2 align="center">关于 - About</h2>
 

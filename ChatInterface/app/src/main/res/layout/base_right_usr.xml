@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/usr_icon"
+            android:layout_width="40dp"
+            android:layout_marginHorizontal="5dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:background="@mipmap/god" />
+
+        <TextView
+            android:id="@+id/usr_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="70dp"
+            android:layout_toStartOf="@+id/usr_icon"
+            android:background="@drawable/selector_bg_chat_to"
+            android:gravity="center_vertical"
+            android:text="usr1"
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
+    </RelativeLayout>
+</RelativeLayout>
