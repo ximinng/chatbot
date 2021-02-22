@@ -36,7 +36,7 @@ Consider buying me one if you find this content useful ☕️😉.
 
 1. 执行`cd chatbot` -- cd to the directory where requirements.txt is located
 2. 开启你的虚拟环境（conda env） -- activate your virtualenv
-3. 执行`pip install -r requirements.txt` in your shell -- run:  `pip install -r requirements.txt` in your shell
+3. 在激活后的conda环境中执行`pip install -r requirements.txt`  -- run:  `pip install -r requirements.txt` in your shell
 
 **至此，你已经安装了本项目所需要的[全部环境](#speech_balloon-faq)**
 
