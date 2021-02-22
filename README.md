@@ -36,7 +36,7 @@ Consider buying me one if you find this content useful ☕️😉.
 
 1. 执行`cd chatbot` -- cd to the directory where requirements.txt is located
 2. 开启你的虚拟环境（conda env） -- activate your virtualenv
-3. 执行`pip install -r requirements.txt in your shell` -- run:  `pip install -r requirements.txt in your shell`
+3. 执行`pip install -r requirements.txt` in your shell -- run:  `pip install -r requirements.txt` in your shell
 
 **至此，你已经安装了本项目所需要的[全部环境](#speech_balloon-faq)**
 
@@ -86,8 +86,8 @@ Consider buying me one if you find this content useful ☕️😉.
 **完整的项目 -- 安卓智能聊天机器人**
 
 `ChatInterface\` 目录下是关于安卓界面的源文件，使用Android studio打开并编译此目录即可得到App文件，
-这里我是用NOX(夜神模拟器)虚拟安卓系统，并基于NOX进行APP测试，NOX Debug脚本位于`ChatInterface/nox.bat`，
-（对应windows系统）
+这里我是用NOX(夜神模拟器)虚拟安卓系统，并基于NOX进行APP测试，NOX Debug脚本位于`ChatInterface/nox.bat`
+（对应windows系）
 
 
 <h2 align="center">关于 - About</h2>
